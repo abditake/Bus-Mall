@@ -2,7 +2,7 @@
 
 // global variables
 
-let votesAllowed = 5
+let votesAllowed = 25
 
 
 
@@ -14,7 +14,7 @@ let allProduct = [];
 
 // dom references
 
-let myContainer = document.getElementById('grid-container');
+let myContainer = document.getElementById('grid1');
 
 let img1 = document.getElementById('img1');
 let img2 = document.getElementById('img2');
@@ -71,7 +71,7 @@ let allProductIndex = [];  // hint for lab today 6 numbers for 2 unique numbers
 // the array is outside function change something around that??
 
 function renderProduct(){
-  
+  //  what i first had i was going to filter than add another random number is the new one added was the same as the previous one
     // for(let i = 0; i<allProductIndex.length;i++)
     //   if(allProductIndex[i] === allProductIndex[i]){
     //     let allProductIndex = allProductIndex.filter 
