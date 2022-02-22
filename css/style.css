@@ -1,0 +1,72 @@
+.grid-container{
+  width: 90%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr ;
+  grid-auto-rows: minmax(200px,auto);
+  grid-template-rows: 200px 450px 0px 400px ;
+
+  row-gap: 20px;
+  grid-template-areas:
+  "header header "
+  "sidebar content1"
+  "sidebar content"
+  "sidebar content2"
+  "showresults showresults "
+}
+
+.grid-container div{
+  border: 2px solid black;
+  font-size: 1.5em;
+  padding: 30px;
+  margin-bottom: 50px;
+}
+.grid{
+  grid-area: header;
+}
+.grid1{
+  grid-area: content1;
+  display: flex;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+.grid1 img{
+  border-style: double;
+}
+ 
+.grid2{
+  grid-area: sidebar;
+  margin-right: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+}
+
+.grid3{
+  grid-area: content2;
+  margin:auto;
+ 
+}
+.grid3 h4{
+  padding: 15;
+  font-size: 25px;
+  line-height: 1.1;
+
+}
+
+.grid4{
+  grid-area: showresults;
+  width: max-content;
+  inline-size: max-content;
+  height: max-content;
+  block-size: max-content;
+  margin-bottom: 20px;
+}
+.grid4 div{
+  border: none
+}
+footer{
+  background-color: whitesmoke;
+  margin: auto;
+}
