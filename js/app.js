@@ -2,7 +2,7 @@
 
 // global variables
 
-let votesAllowed = 25
+let votesAllowed = 2
 
 
 
@@ -19,14 +19,16 @@ let myContainer = document.getElementById('grid1');
 let img1 = document.getElementById('img1');
 let img2 = document.getElementById('img2');
 let img3 = document.getElementById('img3');
-let resultsBtn = document.getElementById('show-results-btn');
-let showResults = document.getElementById('display-results');
+// let resultsBtn = document.getElementById('show-results-btn');
+// let showResults = document.getElementById('display-results');
+
+let ctxWindow = document.getElementById('mychart');
 
 
 
 // constructor
 
-function Products(name,fileExtension = 'jpg'){
+function Products(name, fileExtension = 'jpg') {
   this.name = name;
   this.views = 0;
   this.clicks = 0;
@@ -61,7 +63,7 @@ console.log(allProduct);
 // executable code
 
 function getRandomIndex() {
-  return Math.floor(Math.random()* allProduct.length);
+  return Math.floor(Math.random() * allProduct.length);
 }
 
 
@@ -70,26 +72,30 @@ let allProductIndex = [];  // hint for lab today 6 numbers for 2 unique numbers
 // queue first in first out -[1,2,3,4,5,6] 
 // the array is outside function change something around that??
 
-function renderProduct(){
+function renderProduct() {
+
   //  what i first had i was going to filter than add another random number is the new one added was the same as the previous one
-    // for(let i = 0; i<allProductIndex.length;i++)
-    //   if(allProductIndex[i] === allProductIndex[i]){
-    //     let allProductIndex = allProductIndex.filter 
-    //   }
+  // for(let i = 0; i<allProductIndex.length;i++)
+  //   if(allProductIndex[i] === allProductIndex[i]){
+  //     let allProductIndex = allProductIndex.filter 
+  //   }
 
-   
-    
-    while(allProductIndex.length < 3){
-      let randomNum = getRandomIndex(); // 2 true
-      while(!allProductIndex.includes(randomNum)){
-        // includes return boolean
-        allProductIndex.push(randomNum);
-      }
+
+  while (allProductIndex.length < 6) {
+    let randomNum = getRandomIndex(); // 2 true
+    while (!allProductIndex.includes(randomNum)) {
+      // includes return boolean
+      allProductIndex.push(randomNum);
     }
-  let productOneIndex = allProductIndex.pop();
-  let productTwoIndex = allProductIndex.pop();
-  let productThreeIndex = allProductIndex.pop();
+  }
+  console.log(allProductIndex);
 
+  // pop only removes from the back and shift removes from the front 
+  let productOneIndex = allProductIndex.shift();
+  let productTwoIndex = allProductIndex.shift();
+  let productThreeIndex = allProductIndex.shift();
+
+  console.log(allProductIndex);
   img1.src = allProduct[productOneIndex].src;
   img1.alt = allProduct[productOneIndex].name;
   allProduct[productOneIndex].views++;
@@ -101,7 +107,7 @@ function renderProduct(){
   img3.src = allProduct[productThreeIndex].src;
   img3.alt = allProduct[productThreeIndex].name;
   allProduct[productThreeIndex].views++;
-  
+
 }
 
 renderProduct();
@@ -109,40 +115,80 @@ renderProduct();
 
 //event handler
 
-function handleClick(event){
+function handleClick(event) {
   votesAllowed--;
 
   let clickedImg = event.target.alt;
 
-  for(let i = 0; i<allProduct.length;i++){
-    if(clickedImg === allProduct[i].name){
+  for (let i = 0; i < allProduct.length; i++) {
+    if (clickedImg === allProduct[i].name) {
       allProduct[i].clicks++;
     }
   }
 
   renderProduct();
 
-  if(votesAllowed === 0){
-    myContainer.removeEventListener('click',handleClick);
+  if (votesAllowed === 0) {
+    myContainer.removeEventListener('click', handleClick);
+
+    renderChart();
   }
+
 
 }
 
+function renderChart() {
+  let allProductNames = [];
+  let allProductClicks = [];
+  let allProductViews = [];
+
+  for (let i = 0; i < allProduct.length; i++) {
+    allProductNames.push(allProduct[i].name);
+    allProductClicks.push(allProduct[i].clicks);
+    allProductViews.push(allProduct[i].views);
+  }
 
 
-function handleShowResults(event){
-  if(votesAllowed === 0){
-    for(let i = 0; i < allProduct.length; i++){
-      let li = document.createElement('li');
-      li.textContent = `${allProduct[i].name} was viewed ${allProduct[i].views} times, and was voted for ${allProduct[i].clicks} times.`;
-      showResults.appendChild(li);
+  let myObj = {
+    type: 'bar',
+    data: {
+      labels: allProductNames,
+      datasets: [{
+        label: '# of clicks',
+        data: allProductClicks,
+        backgroundColor: [
+          'blue'
+        ],
+        borderColor: [
+          'blue'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: '# of views',
+        data: allProductViews,
+        backgroundColor: [
+          'red'
+        ],
+        borderColor: [
+
+          'red'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
-      
-  }
 
+  }
+  const myChart = new Chart(ctxWindow, myObj);
 }
 
+myContainer.addEventListener('click', handleClick);
 
-myContainer.addEventListener('click',handleClick);
 
-resultsBtn.addEventListener('click',handleShowResults);
