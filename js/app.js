@@ -2,7 +2,7 @@
 
 // global variables
 
-let votesAllowed = 2
+let votesAllowed = 25c
 
 
 
