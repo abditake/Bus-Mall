@@ -24,6 +24,17 @@ let img3 = document.getElementById('img3');
 
 let ctxWindow = document.getElementById('mychart');
 
+// ****local storage continued**** //
+
+let retrievedProduct = localStorage.getItem('product');
+console.log('retrievedProduct', renderProduct);
+
+// parse our data for our code to read //
+
+let parsedProduct = JSON.parse(retrievedProduct);
+
+console.log('parsedProduct', parsedProduct);
+
 
 
 // constructor
@@ -38,25 +49,33 @@ function Products(name, fileExtension = 'jpg') {
 
 }
 
-new Products('bag');
-new Products('banana')
-new Products('bathroom');
-new Products('boots')
-new Products('breakfast');
-new Products('bubblegum')
-new Products('chair');
-new Products('cthulhu')
-new Products('dog-duck');
-new Products('dragon')
-new Products('pen');
-new Products('pet-sweep')
-new Products('scissors');
-new Products('shark')
-new Products('sweep', 'png');
-new Products('tauntaun')
-new Products('unicorn');
-new Products('water-can')
-new Products('wine-glass');
+// local storage //
+
+// use the data that came out of localStorage
+if (retrievedProduct) {
+  allProduct = parsedProduct;
+} else {
+  new Products('bag');
+  new Products('banana')
+  new Products('bathroom');
+  new Products('boots')
+  new Products('breakfast');
+  new Products('bubblegum')
+  new Products('chair');
+  new Products('cthulhu')
+  new Products('dog-duck');
+  new Products('dragon')
+  new Products('pen');
+  new Products('pet-sweep')
+  new Products('scissors');
+  new Products('shark')
+  new Products('sweep', 'png');
+  new Products('tauntaun')
+  new Products('unicorn');
+  new Products('water-can')
+  new Products('wine-glass');
+}
+
 
 console.log(allProduct);
 
@@ -132,7 +151,22 @@ function handleClick(event) {
     myContainer.removeEventListener('click', handleClick);
 
     renderChart();
+
+    // **********LOCAL STORAGE*********
+    // step 1: stringify the data
+
+    let stringifiedProduct = JSON.stringify(allProduct);
+    console.log(`Stringified product`, stringifiedProduct);
+
+
+    // step 2: set the item into local storage
+    localStorage.setItem('product', stringifiedProduct);
+
+
   }
+
+
+
 
 
 }
